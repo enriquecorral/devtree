@@ -2,11 +2,10 @@ import mongoose from "mongoose";
 
 export const connectDB = async () => {
   try {
-    const url = "mongodb+srv://enriquecorral97:esL5jW6n0WH0pwRC@cluster0.udeuez9.mongodb.net/linkedtree_node_typescript";
-    const { connection } = await mongoose.connect(url)
-    const url2 = `${connection.host}:${connection.port}`;
+    const { connection } = await mongoose.connect(process.env.MONGO_URI)
+    const url = `${connection.host}:${connection.port}`;
 
-    console.log(`MongoDB conectado en ${url2}`);
+    console.log(`MongoDB conectado en ${url}`);
   }
   catch (error) {
     console.error("Error al conectar a la base de datos:", error);
