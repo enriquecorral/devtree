@@ -16,11 +16,13 @@
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "mongodb": "^6.17.0",
-    "mongoose": "^8.16.1"
+    "mongoose": "^8.16.1",
+    "slug": "^11.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.3",
+    "@types/slug": "^5.0.9",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescipt": "^1.0.0"
