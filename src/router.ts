@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator"
-import { createAccount } from "./handlers";
+import { createAccount, login } from "./handlers";
 
 const router = Router();
 
@@ -22,5 +22,17 @@ router.post("/auth/register",
     Promise.resolve(createAccount(req, res)).catch(next);
   });
 
+router.post("/auth/login", 
+    body("email")
+    .isEmail()
+    .withMessage("El email no es válido"),
+  body("password")
+    .notEmpty()
+    .withMessage("La contraseña es obligatoria"),
+
+  (req, res, next) => {
+    Promise.resolve(login(req, res)).catch(next);
+  }
+);
 
 export default router;
