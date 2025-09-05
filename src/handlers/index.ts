@@ -6,27 +6,19 @@ import { checkPassword, hashPassword } from "../utils/auth";
 
 export const createAccount = async (req: Request, res: Response) => {
 
-  // Manejar errores
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   const { email, password } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
     const error = new Error("Un usuario con ese email ya está registrado");
-    res.status(409).json({ error: error.message });
-    return;
+    return res.status(409).json({ error: error.message });
   }
 
   const handle  = slug(req.body.handle, "")
     const handleExists = await User.findOne({ handle });
     if (handleExists) {
       const error = new Error("Nombre de usuario no disponible");
-      res.status(409).json({ error: error.message });
-      return;
+      return res.status(409).json({ error: error.message });
     }
 
   const user = new User(req.body)
@@ -35,23 +27,18 @@ export const createAccount = async (req: Request, res: Response) => {
 
   await user.save()
   res.status(201).send("Registro creado correctamente");
+    return;
 }
 
 export const login = async (req: Request, res: Response) => {
-    // Manejar errores
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
 
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
     // Revisar si el usuario está registrado
   const user = await User.findOne({ email });
   if (!user) {
     const error = new Error("El usuario no existe");
-    res.status(401).json({ error: error.message });
-    return;
+    return res.status(401).json({ error: error.message });
   }
 
   // Comprobar el password
@@ -62,4 +49,5 @@ export const login = async (req: Request, res: Response) => {
   }
 
   res.send("Autenticado...")
+    return;
 }

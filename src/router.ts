@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { body } from "express-validator"
 import { createAccount, login } from "./handlers";
+import { handleInputErrors } from "./middleware/validation";
+import type { RequestHandler } from "express";
 
 const router = Router();
 
@@ -18,9 +20,10 @@ router.post("/auth/register",
   body("password")
     .isLength({ min: 8 })
     .withMessage("La contraseña es muy corta, mínimo 8 caracteres"),
+  handleInputErrors as RequestHandler,
   (req, res, next) => {
     Promise.resolve(createAccount(req, res)).catch(next);
-  });
+  })
 
 router.post("/auth/login", 
     body("email")
@@ -29,7 +32,7 @@ router.post("/auth/login",
   body("password")
     .notEmpty()
     .withMessage("La contraseña es obligatoria"),
-
+  handleInputErrors as RequestHandler,
   (req, res, next) => {
     Promise.resolve(login(req, res)).catch(next);
   }
