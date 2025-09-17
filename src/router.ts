@@ -1,8 +1,9 @@
 import { Router } from "express";
+import type { RequestHandler } from "express";
 import { body } from "express-validator";
 import { createAccount, getUser, login } from "./handlers";
 import { handleInputErrors } from "./middleware/validation";
-import type { RequestHandler } from "express";
+import { authenticate } from "./middleware/auth";
 
 const router = Router();
 
@@ -33,8 +34,6 @@ router.post(
   }
 );
 
-router.get("/user", (req, res, next) => {
-  Promise.resolve(getUser(req, res)).catch(next);
-});
+router.get("/user", authenticate as any, getUser as RequestHandler);
 
 export default router;

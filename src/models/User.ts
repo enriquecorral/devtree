@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-interface IUser {
+export interface IUser {
   handle: string;
   name: string;
   email: string;
@@ -8,7 +8,7 @@ interface IUser {
 }
 
 const userSchema = new Schema({
-   handle: {
+  handle: {
     type: String,
     required: true,
     trim: true,
@@ -32,8 +32,8 @@ const userSchema = new Schema({
     required: true,
     trim: true,
   },
-})
+});
 
-const User = mongoose.model<IUser>('User', userSchema);
+const User = mongoose.model<IUser>("User", userSchema);
 
 export default User;
